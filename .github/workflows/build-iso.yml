@@ -1,0 +1,43 @@
+name: Build Custom Arch ISO
+
+# 1. When should this run?
+on:
+  push:
+    branches: [ "master", "main" ] # Runs every time you save code
+  workflow_dispatch: # Adds a manual "Run Workflow" button
+
+# 2. What should it do?
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest # GitHub gives us a free Ubuntu server
+
+    # 3. We run an Arch container ON the Ubuntu server with root privileges
+    container:
+      image: archlinux:latest
+      options: --privileged 
+
+    steps:
+      # Step 4: Grab your code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 5: Install the Arch ISO building tools
+      - name: Install Build Tools
+        run: |
+          pacman -Syu --noconfirm
+          pacman -S --noconfirm archiso git make jq
+
+      # Step 6: Run your specific build command
+      - name: Build the ISO
+        run: |
+          # Point the builder to your custom package scripts
+          # Replace 'your-github-username/omarchy-fork' with your actual repo!
+          OMARCHY_INSTALLER_REPO="your-github-username/omarchy-fork" OMARCHY_INSTALLER_REF="master" ./bin/omarchy-iso-make
+
+      # Step 7: Upload the finished ISO so you can download it
+      - name: Upload ISO Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-custom-distro-iso
+          path: ./release/*.iso
+          retention-days: 5
