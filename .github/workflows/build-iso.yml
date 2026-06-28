@@ -25,7 +25,7 @@ jobs:
       - name: Install Build Tools
         run: |
           pacman -Syu --noconfirm
-          pacman -S --noconfirm archiso git make jq
+          pacman -S --noconfirm archiso git make jq sudo
 
       # Step 6: Run your specific build command
       - name: Build the ISO
