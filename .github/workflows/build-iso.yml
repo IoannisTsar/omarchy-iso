@@ -32,7 +32,7 @@ jobs:
         run: |
           # Point the builder to your custom package scripts
           # Replace 'your-github-username/omarchy-fork' with your actual repo!
-          OMARCHY_INSTALLER_REPO="your-github-username/omarchy-fork" OMARCHY_INSTALLER_REF="master" ./bin/omarchy-iso-make
+          OMARCHY_INSTALLER_REPO="IoannisTsar/ioanarch" OMARCHY_INSTALLER_REF="master" ./bin/omarchy-iso-make
 
       # Step 7: Upload the finished ISO so you can download it
       - name: Upload ISO Artifact
